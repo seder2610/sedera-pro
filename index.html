@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<script>
+  /* Thème avant premier rendu : override manuel de session, sinon heure locale (5h–17h = clair). */
+  (function () {
+    var t = null;
+    try {
+      var m = sessionStorage.getItem('portfolio_theme_override');
+      if (m === 'light' || m === 'dark') t = m;
+    } catch (e) {}
+    if (!t) { var h = new Date().getHours(); t = (h >= 5 && h < 17) ? 'light' : 'dark'; }
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.classList.add('js');
+  })();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>Sedera Andriamanga — Ingénieur IA · Automatisation</title>
+<meta name="description" content="Je conçois des pipelines d'automatisation et des systèmes IA taillés pour la production. Python · n8n · LLM · Odoo · PostgreSQL.">
+<meta property="og:title" content="Sedera Andriamanga — Ingénieur IA & Automatisation">
+<meta property="og:description" content="Systèmes IA et architectures d'automatisation pour environnements d'entreprise réels.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sedera-pro.com/">
+<meta property="og:image" content="https://sedera-pro.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sedera Andriamanga — Ingénieur IA & Automatisation">
+<meta name="twitter:description" content="Systèmes IA et architectures d'automatisation pour environnements d'entreprise réels.">
+<meta name="twitter:image" content="https://sedera-pro.com/og-image.png">
+<link rel="canonical" href="https://sedera-pro.com/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Sedera Andriamanga",
+  "jobTitle": "Ingénieur IA & automatisation",
+  "url": "https://sedera-pro.com/",
+  "email": "mailto:sedera@sedera-pro.com",
+  "address": { "@type": "PostalAddress", "addressLocality": "Antananarivo", "addressCountry": "MG" },
+  "sameAs": ["https://github.com/seder2610", "https://www.linkedin.com/in/sedera-andriamanga"],
+  "knowsAbout": ["n8n", "Python", "Odoo", "LLM", "Automatisation"]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=Martian+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================================
+   1 · JETONS
+   Trois couleurs phares, tenues d'un bout à l'autre : noir asphalte (fond),
+   bordeaux (accent), ivoire (encre). Zilla Slab / Martian Mono / Inter —
+   la même typographie que le design system de la marque (DESIGN-SYSTEM.md),
+   pas une nouvelle paire choisie au hasard pour ce fichier.
+   ========================================================================= */
+:root {
+  --page:        #201a1e;   /* anthracite chaud — moins noir, teinté bordeaux */
+  --tile:        #2a2226;
+  --tile-2:      #251e22;
+  --edge:        #423840;
+  --edge-soft:   #362d32;
+
+  --ink:         #ecdfd2;   /* 13.0:1 sur --page */
+  --body:        #a1958a;   /*  5.8:1 sur --page */
+  --label:       #948a80;   /*  4.6:1 sur --tile */
+
+  --accent:      #8c2440;   /* aplats — bordeaux */
+  --accent-line: #c9556c;   /* traits, cartouches */
+  --accent-ink:  #d4697e;   /*  5.2:1 — texte accentué */
+  --on-accent:   #fdf0f3;   /*  7.8:1 sur --accent */
+  --on-accent-2: #f0c8d2;   /*  5.7:1 sur --accent */
+
+  --grain:       .22;
+  --blend:       overlay;
+  --lift:        none;
+  --lift-hover:  0 14px 32px -12px rgba(0,0,0,.55);
+
+  --sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --display: 'Zilla Slab', Georgia, 'Times New Roman', serif;
+  --mono:    'Martian Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --gap: 10px;
+  --pad: 22px;
+  --r:   4px;
+  --cut: 22px;
+  --paper:      #efe6da;   /* ivoire — 3e couleur phare, utilisée comme surface et pas juste comme encre */
+  --on-paper:   #211a1d;   /* 13.8:1 sur --paper */
+  --on-paper-2: #6b5d55;   /*  5.1:1 sur --paper */
+  --max: clamp(1360px, calc(743px + 42.9vw), 2200px);
+  --edge-pad: 14px;
+}
+@media (min-width: 1080px) { :root { --cut: 34px; } }
+
+[data-theme="light"] {
+  --page:        #eeece6;
+  --tile:        #ffffff;
+  --tile-2:      #f9f7f1;
+  --edge:        #dbd5c9;
+  --edge-soft:   #e6e1d7;
+
+  --ink:         #1a1518;   /* 18.0:1 */
+  --body:        #5b524f;   /*  7.6:1 */
+  --label:       #6f6663;   /*  5.6:1 */
+
+  --accent:      #8c2440;
+  --accent-line: #8c2440;
+  --accent-ink:  #8c2440;   /*  8.6:1 */
+  --on-accent:   #fdf0f3;
+  --on-accent-2: #f0c8d2;
+
+  --grain:       .04;
+  --blend:       multiply;
+  --lift:        0 1px 2px rgba(26,21,24,.04);
+  --lift-hover:  0 14px 30px -14px rgba(26,21,24,.28);
+}
+
+/* ============================================================================
+   2 · SOCLE
+   ========================================================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  background: var(--page);
+  color: var(--body);
+  font-family: var(--sans);
+  font-size: 15px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding: var(--edge-pad);
+  padding-top: calc(var(--edge-pad) + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(var(--edge-pad) + env(safe-area-inset-bottom, 0px));
+  transition: background-color .3s ease, color .3s ease;
+}
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: 99; pointer-events: none;
+  opacity: var(--grain); mix-blend-mode: var(--blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { color: var(--ink); font-family: var(--display); font-weight: 600; letter-spacing: -.01em; line-height: 1.08; }
+
+:focus-visible { outline: 2px solid var(--accent-line); outline-offset: 2px; border-radius: 2px; }
+
+.skip {
+  position: absolute; left: 14px; top: -60px; z-index: 100;
+  background: var(--accent); color: var(--on-accent);
+  padding: 12px 18px; border-radius: 4px; font-size: 13px; font-weight: 600;
+  transition: top .18s ease;
+}
+.skip:focus { top: 14px; }
+
+/* ============================================================================
+   3 · MOSAÏQUE
+   ========================================================================= */
+.mosaic {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+@media (min-width: 720px) {
+  :root { --gap: 12px; --pad: 24px; --edge-pad: 18px; }
+  .mosaic {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-auto-flow: dense;
+  }
+  .mosaic > * { grid-column: span 6; }
+  .m-3 { grid-column: span 3; }
+  .m-2 { grid-column: span 2; }
+  .m-4 { grid-column: span 4; }
+  .m-6 { grid-column: span 6; }
+}
+
+@media (min-width: 1080px) {
+  :root { --gap: 16px; --pad: 32px; --edge-pad: 28px; }
+  .mosaic {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-auto-rows: minmax(134px, auto);
+    grid-auto-flow: dense; /* comble les trous plutôt que de sauter une ligne en laissant du vide */
+  }
+  .c3  { grid-column: span 3; }
+  .c4  { grid-column: span 4; }
+  .c5  { grid-column: span 5; }
+  .c6  { grid-column: span 6; }
+  .c7  { grid-column: span 7; }
+  .c8  { grid-column: span 8; }
+  .c12 { grid-column: span 12; }
+  .r2 { grid-row: span 2; }
+  .r3 { grid-row: span 3; }
+  .r4 { grid-row: span 4; }
+}
+
+/* ============================================================================
+   4 · TUILE
+   Le fond reste une grille sobre — pas de rotation, pas d'inclinaison. Le
+   "plan cassé" est ponctuel : un coin coupé net (clip-path), réservé à
+   quelques tuiles choisies, jamais généralisé. C'est le seul geste
+   décoratif de toute la page.
+   ========================================================================= */
+.t {
+  position: relative;
+  display: flex; flex-direction: column;
+  background: var(--tile);
+  border: 1px solid var(--edge);
+  border-radius: var(--r);
+  padding: var(--pad);
+  box-shadow: var(--lift);
+  overflow: hidden;
+  transition: border-color .18s ease, background-color .18s ease,
+              transform .32s cubic-bezier(.16,1,.3,1), box-shadow .32s cubic-bezier(.16,1,.3,1);
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .js a.t.on:hover { transform: translateY(-3px); box-shadow: var(--lift-hover); }
+}
+.t--sunk   { background: var(--tile-2); }
+.t--accent { background: var(--accent); border-color: var(--accent); color: var(--on-accent-2); }
+.t--accent h2, .t--accent h3 { color: var(--on-accent); }
+.t--paper  { background: var(--paper); border-color: var(--paper); color: var(--on-paper-2); }
+.t--paper h2, .t--paper h3, .t--paper .lbl { color: var(--on-paper); }
+.t--paper .num .v { color: var(--accent); }
+.t--paper .num .v small, .t--paper .num .k { color: var(--on-paper-2); }
+.t--paper .caveat { color: var(--on-paper-2); border-top-color: rgba(33,26,29,.14); }
+.t--paper .b-text, .t--paper p { color: var(--on-paper-2); }
+.t--paper .tl-row { border-left-color: rgba(33,26,29,.16); }
+.t--paper .tl-row::before { background: var(--accent); }
+.t--paper .tl-row .yr { color: var(--accent); }
+.t--paper .tl-row .rl { color: var(--on-paper); }
+.t--paper .tl-row .co { color: var(--on-paper-2); }
+.t--paper .tl-row .de { color: var(--on-paper-2); }
+.t--paper .tl-row .de strong { color: var(--on-paper); }
+a.t:hover { border-color: var(--accent-line); }
+a.t svg { transition: transform .32s cubic-bezier(.16,1,.3,1); }
+a.t:hover svg { transform: scale(1.08) rotate(-4deg); }
+
+/* Coin coupé — plan cassé n°1 : posé sur plusieurs tuiles, jamais toutes */
+.t--cut     { clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%); }
+.t--cut-alt { clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%, 0 var(--cut)); }
+
+
+/* Repère d'index — discret, entre crochets, dans la mono de marque */
+.t[data-idx]::before {
+  content: "[" attr(data-idx) "]";
+  position: absolute; top: 13px; right: 14px;
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: .06em;
+  color: var(--label); opacity: .45;
+}
+.t--accent[data-idx]::before { color: var(--on-accent-2); opacity: .6; }
+.t--paper[data-idx]::before { color: var(--on-paper-2); opacity: .75; }
+
+.lbl {
+  font-family: var(--mono); font-size: clamp(10px, calc(5px + .345vw), 14px); letter-spacing: .12em;
+  text-transform: uppercase; color: var(--label);
+}
+.t--accent .lbl { color: var(--on-accent-2); }
+.mono { font-family: var(--mono); }
+
+.push { margin-top: auto; }
+
+/* ============================================================================
+   5 · TUILES NOMMÉES
+   ========================================================================= */
+
+/* — Identité — */
+.ident { gap: 16px; justify-content: space-between; }
+.t--spread { justify-content: space-between; }
+.seal { width: 42px; height: 42px; }
+@media (prefers-reduced-motion: no-preference) {
+  .seal-ring { animation: seal-spin 50s linear infinite; transform-origin: 24px 24px; }
+}
+@keyframes seal-spin { to { transform: rotate(360deg); } }
+.ident .who { font-family: var(--display); font-size: clamp(26px, calc(13.1px + .897vw), 36px); font-weight: 600; color: var(--ink); line-height: 1.1; letter-spacing: -.005em; }
+.ident .role { color: var(--accent-ink); margin-top: 8px; font-family: var(--sans); font-size: 13px; letter-spacing: 0; text-transform: none; }
+.ident .place { font-family: var(--mono); font-size: 11px; color: var(--label); line-height: 1.8; }
+
+.ctl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.langs { display: flex; border: 1px solid var(--edge); border-radius: 999px; overflow: hidden; }
+.langs button {
+  min-width: 42px; min-height: 34px; border: 0; background: none; cursor: pointer;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--body);
+}
+.langs button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+.themer {
+  width: 42px; height: 34px; display: grid; place-items: center;
+  border: 1px solid var(--edge); border-radius: 999px;
+  background: none; color: var(--body); cursor: pointer;
+}
+.themer:hover, .langs button:hover { color: var(--ink); }
+[data-theme="dark"]  .i-sun  { display: block; }
+[data-theme="dark"]  .i-moon { display: none; }
+[data-theme="light"] .i-sun  { display: none; }
+[data-theme="light"] .i-moon { display: block; }
+
+.jump { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.jump a {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--label); min-height: 28px; display: inline-flex; align-items: center;
+  border-bottom: 1px solid transparent; position: relative;
+  transition: color .2s ease;
+}
+.jump a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+  background: var(--accent-line); transform: scaleX(0); transform-origin: left;
+  transition: transform .28s cubic-bezier(.16,1,.3,1);
+}
+.jump a:hover { color: var(--accent-ink); }
+.jump a:hover::after { transform: scaleX(1); }
+
+/* — Photo (facultative) — */
+.photo { padding: 0; justify-content: flex-end; }
+.photo img { width: 100%; height: 100%; min-height: 220px; aspect-ratio: 900 / 1125; object-fit: cover; filter: grayscale(.25) contrast(1.04); }
+/* En une ou six colonnes, la photo pleine largeur ne doit pas occuper tout l'écran */
+@media (max-width: 1079px) {
+  .photo img { height: auto; aspect-ratio: 4 / 3; max-height: 460px; object-position: 50% 30%; }
+}
+/* En mosaïque 12 colonnes, la photo suit la hauteur de ses voisines au lieu de l'imposer */
+@media (min-width: 1080px) {
+  .photo { min-height: 280px; }
+  .photo img { position: absolute; inset: 0; min-height: 0; }
+}
+.photo figcaption {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .08em; color: var(--on-accent-2);
+  background: color-mix(in srgb, var(--accent) 72%, transparent);
+  padding: 9px 14px; position: absolute; left: 0; right: 0; bottom: 0;
+}
+
+/* — Accroche — */
+.lead { justify-content: center; gap: 20px; }
+.lead h1 {
+  font-size: clamp(30px, 4.4vw, 62px);
+  font-weight: 600; letter-spacing: -.01em; line-height: 1.04;
+  max-width: 16ch;
+}
+.lead h1 em { font-style: italic; color: var(--accent-ink); }
+.lead p { max-width: 62ch; font-size: clamp(14px, 1.15vw, 15.5px); font-family: var(--sans); }
+.acts { display: flex; flex-wrap: wrap; gap: 9px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 12px 22px; border-radius: 999px;
+  font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: .01em;
+  border: 1px solid transparent; cursor: pointer;
+  transition: border-color .18s ease, transform .22s cubic-bezier(.16,1,.3,1), box-shadow .22s ease;
+}
+.btn--fill  { background: var(--accent); color: var(--on-accent); }
+.btn--line  { border-color: var(--edge); color: var(--ink); }
+.btn--line:hover { border-color: var(--accent-line); }
+.btn--invert { background: var(--on-accent); color: var(--accent); }
+.btn--outline { background: transparent; border-color: var(--on-accent-2); color: var(--on-accent); }
+.btn--outline:hover { border-color: var(--on-accent); }
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px -12px rgba(0,0,0,.4); }
+  .btn:active { transform: translateY(0); }
+}
+
+/* — Tuiles filantes (statut / dépôt) — */
+.strip { flex-direction: row; align-items: center; gap: 16px; }
+.strip .big { font-family: var(--display); font-size: 17px; font-weight: 600; color: var(--ink); letter-spacing: -.005em; }
+
+/* — Blocs « ce que je construis » — */
+.b-num { font-size: 12px; font-family: var(--mono); color: var(--accent-ink); letter-spacing: .06em; }
+.t--accent .b-num { color: var(--on-accent); }
+.b-title { font-size: clamp(20px, calc(10.1px + .69vw), 28px); font-weight: 600; margin: 14px 0 9px; letter-spacing: -.005em; }
+.b-text { font-size: clamp(13.5px, calc(6.8px + .466vw), 19px); line-height: 1.75; font-family: var(--sans); }
+.t--accent .b-text { color: var(--on-accent-2); }
+.b-link {
+  margin-top: 14px; display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .05em;
+  color: var(--accent-ink); border-top: 1px solid var(--edge-soft); padding-top: 12px;
+}
+.t--accent .b-link { color: var(--on-accent); border-top-color: rgba(253,240,243,.22); }
+.b-link:hover { text-decoration: underline; }
+
+/* — Approche : quatre lignes, pas quatre cartes — */
+.principles { display: grid; gap: 16px; margin-top: 16px; }
+@media (min-width: 760px) { .principles { grid-template-columns: 1fr 1fr; gap: 18px 28px; } }
+.principle { border-top: 1px solid var(--edge-soft); padding-top: 12px; }
+.principle h3 { font-family: var(--sans); font-size: 14.5px; font-weight: 600; margin-bottom: 5px; letter-spacing: 0; }
+.principle p { font-size: 13px; line-height: 1.65; font-family: var(--sans); }
+@media (min-width: 1080px) { .principles--4 { grid-template-columns: repeat(4, 1fr); } }
+
+/* — Zone Projets : un seul enfant de la mosaïque (libellé + projets empilés),
+     donc aucune ligne de grille réservée au seul libellé — */
+.proj-zone { display: flex; flex-direction: column; gap: var(--gap); }
+.proj-lbl { padding: 6px 6px 0; }
+.proj-flow {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: 1fr;
+}
+.proj-flow .t.proj { margin: 0; }
+.shot { margin: 0 0 20px; border: 1px solid var(--edge); border-radius: var(--r); overflow: hidden; }
+.shot img { width: 100%; height: auto; aspect-ratio: 1400 / 374; }
+
+/* — Recruteurs — */
+h2.lbl { font-weight: 400; line-height: 1.6; letter-spacing: .12em; }
+.facts { margin: 14px 0 20px; }
+.fact { display: grid; gap: 3px; padding: 11px 0; border-top: 1px solid var(--edge-soft); }
+.fact dt { font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--label); }
+.fact dd { font-family: var(--sans); font-size: 14px; line-height: 1.55; color: var(--ink); }
+.t .btn.push { align-self: flex-start; }
+
+/* — Offres — */
+.offers { display: grid; gap: 22px; margin-top: 14px; }
+/* Offres empilées : texte à gauche, prix + bouton à droite — pas de vide sous les boutons */
+.offer { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--edge-soft); padding-top: 14px; }
+@media (min-width: 760px) {
+  .offer { display: grid; grid-template-columns: 1fr auto; column-gap: 28px; row-gap: 8px; align-items: start; }
+  .offer h3, .offer p:not(.price) { grid-column: 1; }
+  .offer .price { grid-column: 2; grid-row: 1; justify-self: end; margin-top: 4px; }
+  .offer .btn { grid-column: 2; grid-row: 2 / span 2; }
+}
+.offer h3 { font-size: clamp(19px, calc(9.5px + .6vw), 25px); letter-spacing: -.005em; }
+.offer p { font-size: 13.5px; line-height: 1.7; font-family: var(--sans); }
+.offer .price { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-ink); }
+.offer .btn { align-self: flex-start; }
+
+/* — Projet — */
+.proj { gap: 18px; }
+.proj-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.chip {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--accent-ink); border: 1px solid var(--accent-line); border-radius: 999px; padding: 5px 11px;
+}
+.proj h3 { font-size: clamp(21px, 2.1vw, 28px); letter-spacing: -.005em; }
+.proj-grid { display: grid; gap: 22px; }
+@media (min-width: 900px) { .proj-grid { grid-template-columns: 1.15fr 1fr; gap: 34px; } }
+.blk + .blk { margin-top: 16px; }
+.blk p { font-size: 13.5px; line-height: 1.75; font-family: var(--sans); }
+.blk strong { color: var(--ink); font-weight: 600; }
+.res { border-left: 2px solid var(--accent-line); padding-left: 13px; color: var(--ink); }
+
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-family: var(--mono); font-size: 10.5px; padding: 5px 10px;
+  border-radius: 4px; border: 1px solid var(--edge); color: var(--body);
+}
+.tag--on { border-color: var(--accent-line); color: var(--accent-ink); }
+
+.golink {
+  display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
+  min-height: 44px; font-family: var(--sans); font-size: 13.5px; font-weight: 600; color: var(--accent-ink);
+}
+.golink span { border-bottom: 1px solid var(--accent-line); padding-bottom: 2px; }
+
+/* — Schéma : une seule fois, là où il prouve quelque chose — */
+.schema { width: 100%; height: auto; color: var(--label); margin-bottom: 20px; }
+.schema .bx { fill: none; stroke: var(--edge); }
+.schema .bx-on { fill: none; stroke: var(--accent-line); }
+.schema .fl { fill: none; stroke: var(--accent-line); }
+.schema .fl-b { fill: none; stroke: currentColor; stroke-dasharray: 3 4; }
+.schema .n { fill: var(--ink); font: 600 11px var(--sans); }
+.schema .n-on { fill: var(--accent-ink); font: 600 11px var(--sans); }
+.schema .c { fill: currentColor; font: 400 9px var(--mono); letter-spacing: .04em; }
+
+/* — Chiffres — */
+.nums { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; margin: 16px 0 14px; }
+.num .v { font-family: var(--display); font-size: clamp(27px, calc(13.35px + .948vw), 38px); font-weight: 600; color: var(--ink); letter-spacing: -.01em; line-height: 1; font-variant-numeric: tabular-nums; }
+.num .v small { font-family: var(--sans); font-size: clamp(12px, calc(6px + .414vw), 17px); color: var(--label); font-weight: 500; }
+.num .k { font-family: var(--sans); font-size: clamp(11px, calc(5.5px + .379vw), 15.5px); line-height: 1.4; color: var(--label); margin-top: 6px; }
+.caveat { font-family: var(--sans); font-size: clamp(11.5px, calc(5.8px + .397vw), 16px); line-height: 1.6; color: var(--label); border-top: 1px solid var(--edge-soft); padding-top: 12px; }
+
+/* — Parcours — */
+.tl { display: grid; gap: 18px; margin-top: 16px; }
+@media (min-width: 860px) { .tl { grid-template-columns: repeat(3, 1fr); gap: 28px; } }
+.tl-row { display: grid; gap: 4px; padding-left: 16px; border-left: 1px solid var(--edge-soft); position: relative; }
+.tl-row::before {
+  content: ""; position: absolute; left: -3.5px; top: 7px;
+  width: 7px; height: 7px; background: var(--accent-line);
+}
+.tl-row .yr { font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--accent-ink); }
+.tl-row .rl { font-family: var(--display); font-size: clamp(16px, calc(8px + .552vw), 22px); font-weight: 600; color: var(--ink); }
+.tl-row .co { font-family: var(--sans); font-size: clamp(12.5px, calc(6.3px + .431vw), 17.5px); color: var(--label); }
+.tl-row .de { font-family: var(--sans); font-size: clamp(13px, calc(6.5px + .448vw), 18px); line-height: 1.65; margin-top: 5px; }
+.tl-row .de strong { color: var(--ink); font-weight: 600; }
+
+/* — Outils — */
+.tools { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; max-width: 260px; }
+.tool {
+  font-family: var(--sans); font-size: clamp(12.5px, calc(6.3px + .431vw), 17.5px); padding: 7px 13px; border-radius: 999px;
+  border: 1px solid var(--edge); color: var(--body);
+}
+.tool--on { border-color: var(--accent-line); color: var(--accent-ink); }
+
+
+/* — Contact — */
+.cta { gap: 16px; justify-content: center; }
+.cta h2 { font-size: clamp(26px, 3.6vw, 42px); letter-spacing: -.01em; max-width: 19ch; }
+.cta h2 em { font-style: italic; color: var(--on-accent); }
+.cta p { max-width: 58ch; font-family: var(--sans); }
+.cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; }
+.cta-row a.mail { font-family: var(--mono); font-size: 12.5px; color: var(--on-accent); border-bottom: 1px solid var(--on-accent-2); padding-bottom: 2px; min-height: 32px; display: inline-flex; align-items: center; }
+.cta-row a.soc { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--on-accent-2); min-height: 32px; display: inline-flex; align-items: center; }
+.cta-row a.mail:hover, .cta-row a.soc:hover { color: var(--on-accent); }
+.cta-row a.btn--invert:hover { background: var(--accent-line); color: var(--on-accent); }
+
+/* — Ourlet — */
+.hem {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em;
+  color: var(--label); padding: 18px 4px 4px;
+  max-width: var(--max); margin: 0 auto;
+}
+
+/* ============================================================================
+   5bis · TRÈS GRAND ÉCRAN (27"+, ≥1900px)
+   Les clamp() du bloc 5 plafonnent volontairement vers ~2600px de viewport —
+   pensé pour un 24" standard. Sur un 27"+, le résultat lit petit. Plutôt que
+   de repousser encore le plafond des clamp() (qui aurait fait grossir le
+   contenu dès 1440px), ce palier fixe des tailles nettement plus grandes,
+   uniquement passé 1900px, pour tout le texte porteur d'information —
+   pas seulement les tags de la Boîte à outils corrigés plus tôt.
+   ========================================================================= */
+@media (min-width: 1900px) {
+  :root { --gap: 17px; --pad: 34px; --edge-pad: 29px; }
+  .mosaic { grid-auto-rows: minmax(142px, auto); }
+
+  .lead h1 { font-size: 66px; }
+  .lead p { font-size: 16px; }
+  .ident .who { font-size: 38px; }
+  .ident .role { font-size: 14px; }
+  .ident .place { font-size: 12.5px; }
+
+  .b-title { font-size: 30px; }
+  .b-text { font-size: 20px; }
+  .principle h3 { font-size: 16px; }
+  .principle p { font-size: 14px; }
+
+  .proj h3 { font-size: 29px; }
+  .blk p { font-size: 15px; }
+  .tag { font-size: 12px; padding: 6px 12px; }
+
+  /* Poste précédent — à partir d'ici, chaque statistique passe en ligne
+     (chiffre à gauche, libellé plaqué tout à droite) plutôt qu'empilée
+     verticalement, avec un vrai espace entre les deux. */
+  .nums { grid-template-columns: 1fr; gap: 16px; }
+  .num { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+  .num .v { flex: none; }
+  .num .k { margin-top: 0; text-align: right; max-width: 60%; }
+
+  .num .v { font-size: 56px; }
+  .num .v small { font-size: 23px; }
+  .num .k { font-size: 17px; }
+  .caveat { font-size: 17px; }
+
+  .tools { max-width: none; gap: 14px; }
+  .tool { font-size: 18px; padding: 12px 20px; }
+
+  .fact dt { font-size: 12px; }
+  .fact dd { font-size: 16px; }
+  .offer h3 { font-size: 27px; }
+  .offer p { font-size: 15px; }
+  .offer .price { font-size: 12.5px; }
+
+  .tl-row .rl { font-size: 24px; }
+  .tl-row .co { font-size: 18.5px; }
+  .tl-row .de { font-size: 19.5px; }
+
+  .cta h2 { font-size: 42px; }
+  .cta p { font-size: 16px; }
+  .btn { font-size: 14px; min-height: 46px; padding: 12px 22px; }
+
+  .lbl { font-size: 13.5px; }
+}
+
+/* ============================================================================
+   6 · APPARITION
+   ========================================================================= */
+@media (prefers-reduced-motion: no-preference) {
+  .js .t { opacity: 0; transform: translateY(10px); }
+  .js .t.on { opacity: 1; transform: none; transition: opacity .45s ease, transform .45s cubic-bezier(.16,1,.3,1); }
+}
+
+
+/* ============================================================================
+   7 · IMPRESSION
+   ========================================================================= */
+@media print {
+  body { background: #fff; color: #111; padding: 0; }
+  body::after, .ctl, .jump, .skip { display: none !important; }
+  .t { border: 1px solid #ccc; box-shadow: none; break-inside: avoid; opacity: 1 !important; transform: none !important; clip-path: none !important; }
+  .mosaic { display: block; }
+  .t { margin-bottom: 10px; }
+}
+</style>
+</head>
+
+<body>
+<a class="skip" href="#m" data-i18n="skip">Aller au contenu</a>
+
+<main class="mosaic" id="m">
+
+  <!-- ░░ 01 · IDENTITÉ ░░ -->
+  <section class="t ident t--cut c4 r3 m-3" data-idx="01" aria-labelledby="who">
+    <svg class="seal" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="23" fill="none" stroke="var(--accent-line)"/>
+      <circle class="seal-ring" cx="24" cy="24" r="18" fill="none" stroke="var(--accent-line)" stroke-dasharray="1.5 4"/>
+      <text x="24" y="29" text-anchor="middle" font-family="Martian Mono, monospace" font-size="12" fill="var(--ink)">SA</text>
+    </svg>
+
+    <div>
+      <p id="who" class="who">Sedera<br>Andriamanga</p>
+      <p class="role lbl" data-i18n="role">Ingénieur IA · Automatisation</p>
+    </div>
+
+    <p class="place">
+      Antananarivo &mdash; Madagascar<br>
+      <span data-i18n="remote">Télétravail international</span>
+    </p>
+
+    <div class="ctl">
+      <div class="langs" role="group" aria-label="Langue / Language">
+        <button type="button" id="fr" aria-pressed="true">FR</button>
+        <button type="button" id="en" aria-pressed="false">EN</button>
+      </div>
+      <button type="button" class="themer" id="th" aria-label="Activer le mode clair">
+        <svg class="i-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.8v2.1M12 20.1v2.1M4.3 4.3l1.5 1.5M18.2 18.2l1.5 1.5M1.8 12h2.1M19.9 12h2.3M4.3 19.7l1.5-1.5M18.2 5.8l1.5-1.5"/></svg>
+        <svg class="i-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+      </button>
+    </div>
+
+    <nav class="jump" aria-label="Sections">
+      <a href="#p1" data-i18n="j_work">Projets</a>
+      <a href="#exp" data-i18n="j_exp">Parcours</a>
+      <a href="#ct" data-i18n="j_contact">Contact</a>
+    </nav>
+  </section>
+
+  <!-- ░░ 02 · ACCROCHE ░░ -->
+  <section class="t lead t--cut c8 r2 m-3" data-idx="02" aria-labelledby="h1">
+    <h1 id="h1" data-i18n="h1">Vos flux métier tournent déjà. Je fais en sorte qu'ils tournent <em>seuls</em>.</h1>
+    <p data-i18n="sub">Pipelines d'automatisation et systèmes IA branchés sur de vrais outils d'entreprise : extraction documentaire, agents qui agissent réellement, workflows qui relient Odoo, CRM et API tierces.</p>
+    <div class="acts">
+      <a class="btn btn--fill" href="#p1" data-i18n="cta_work">Voir les projets</a>
+      <a class="btn btn--line" href="#ct" data-i18n="cta_talk">Me contacter</a>
+    </div>
+  </section>
+
+  <!-- ░░ 03 · STATUT ░░ -->
+  <div class="t strip c4 m-3" data-idx="03">
+    <div style="flex:1">
+      <p class="big" data-i18n="st_v">Missions freelance &amp; CDI</p>
+      <p class="lbl" style="margin-top:6px" data-i18n="st_k">Disponible maintenant</p>
+    </div>
+  </div>
+
+  <!-- ░░ 04 · DÉPÔT ░░ -->
+  <a class="t strip c4 m-3" data-idx="04" href="https://github.com/seder2610" target="_blank" rel="noopener">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="color:var(--ink);flex:none"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+    <div style="flex:1">
+      <p class="big">github.com/seder2610</p>
+      <p class="lbl" style="margin-top:6px" data-i18n="gh_k">Le code se lit &rarr;</p>
+    </div>
+  </a>
+
+  <!-- ░░ 05·06·07 · PROJETS ░░ — un seul enfant de la mosaïque : libellé puis
+       projets empilés. Pour ajouter un projet : dupliquer un <article class="t proj">
+       complet dans .proj-flow, avec un data-idx qui suit, un id unique, et sa
+       propre entrée FR/EN dans le dictionnaire plus bas. -->
+  <div class="proj-zone c12 m-6">
+    <p class="lbl proj-lbl" data-i18n="p_eyebrow">Projets</p>
+
+    <div class="proj-flow">
+
+    <article class="t proj t--cut-alt" data-idx="05" id="p1" aria-labelledby="p1t">
+      <div class="proj-top">
+        <span class="chip" data-i18n="p1_tag">Architecture 03 · Automatisation métier</span>
+      </div>
+      <h3 id="p1t" data-i18n="p1_title">n8n-bridge &mdash; module d'intégration Odoo &harr; n8n</h3>
+
+      <div class="proj-grid">
+        <div>
+          <div class="blk">
+            <p class="lbl" style="margin-bottom:7px" data-i18n="l_pb">Problématique</p>
+            <p data-i18n="p1_pb">L'automatisation intégrée d'Odoo s'arrête à ses propres frontières. Une commande validée, un mouvement de stock, un nouveau contact : rien de tout ça ne peut déclencher un workflow externe sans un pont qui tienne en production.</p>
+          </div>
+          <div class="blk">
+            <p class="lbl" style="margin-bottom:7px" data-i18n="l_sol">Solution</p>
+            <p data-i18n="p1_sol">Un module Odoo 17 qui expose les événements métier (commande confirmée, livraison validée, facture comptabilisée) sous forme de <strong>webhooks signés HMAC-SHA256</strong>, mis en file d'attente et renvoyés jusqu'à 5 fois en cas d'échec. En retour, n8n écrit dans Odoo par <strong>un point d'entrée unique protégé par clé API</strong>.</p>
+          </div>
+          <div class="blk">
+            <p class="lbl" style="margin-bottom:7px" data-i18n="l_res">Résultat</p>
+            <p class="res" data-i18n="p1_res">Une seule configuration pour relier Odoo à n'importe quel moteur d'automatisation, au lieu d'un connecteur bricolé par workflow. Démo écrite de zéro, sans code client, installée et testée sur Odoo 17.</p>
+          </div>
+        </div>
+
+        <div>
+          <svg class="schema" viewBox="0 0 480 150" role="img" aria-labelledby="p1sch">
+            <title id="p1sch" data-i18n="p1_schema">Le module n8n-bridge, installé dans Odoo 17, envoie des webhooks signés HMAC vers n8n via une file d'attente ; n8n répond par un point d'entrée protégé par clé API et liste blanche.</title>
+            <rect class="bx" x="1" y="6" width="220" height="138" rx="2"/>
+            <text class="n" x="14" y="27">Odoo 17</text>
+
+            <rect class="bx-on" x="24" y="46" width="174" height="64" rx="2"/>
+            <text class="n-on" x="111" y="74" text-anchor="middle">n8n-bridge</text>
+            <text class="c" x="111" y="90" text-anchor="middle">MODULE</text>
+
+            <rect class="bx" x="349" y="46" width="130" height="64" rx="2"/>
+            <text class="n" x="414" y="74" text-anchor="middle">n8n</text>
+            <text class="c" x="414" y="90" text-anchor="middle">WORKFLOWS</text>
+
+            <path class="fl" d="M198 64 H348"/><path class="fl" d="M342 60 L348 64 L342 68"/>
+            <text class="c" x="285" y="42" text-anchor="middle">HMAC</text>
+            <text class="c" x="285" y="55" text-anchor="middle" data-i18n="s1_q">FILE + CRON</text>
+
+            <path class="fl-b" d="M349 92 H199"/><path class="fl-b" d="M205 88 L199 92 L205 96"/>
+            <text class="c" x="285" y="109" text-anchor="middle" data-i18n="s1_k">CLÉ API</text>
+            <text class="c" x="285" y="122" text-anchor="middle" data-i18n="s1_w">LISTE BLANCHE</text>
+          </svg>
+
+          <p class="lbl" style="margin-bottom:9px" data-i18n="l_stack">Stack</p>
+          <div class="tags" style="margin-bottom:18px">
+            <span class="tag tag--on">Odoo 17</span><span class="tag tag--on">Python</span>
+            <span class="tag">n8n</span><span class="tag">HMAC-SHA256</span>
+            <span class="tag">REST API</span><span class="tag">PostgreSQL</span>
+          </div>
+
+          <p class="lbl" style="margin-bottom:7px" data-i18n="l_cons">Contraintes</p>
+          <p style="font-size:13px;line-height:1.7;font-family:var(--sans)" data-i18n="p1_cons">Rester dans l'ORM et le modèle de droits d'Odoo : chaque appel entrant s'exécute sous l'utilisateur lié à la clé, et seuls les modèles, méthodes et champs d'une liste blanche sont accessibles. L'envoi passe par un cron, pour qu'un n8n lent ou arrêté ne bloque jamais une vente.</p>
+
+          <a class="golink push" href="https://github.com/seder2610/n8n-bridge" target="_blank" rel="noopener">
+            <span data-i18n="l_gh">Ouvrir le dépôt &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <article class="t proj" data-idx="06" id="p2" aria-labelledby="p2t">
+      <div class="proj-top">
+        <span class="chip" data-i18n="p2_tag">Architecture 02 · Agent autonome</span>
+      </div>
+      <h3 id="p2t" data-i18n="p2_title">Agent de prospection LinkedIn</h3>
+
+      <div class="proj-grid">
+        <div>
+          <div class="blk">
+            <p class="lbl" style="margin-bottom:7px" data-i18n="l_pb">Problématique</p>
+            <p data-i18n="p2_pb">Lire un profil, repérer une accroche pertinente et écrire un message qui ne sonne pas générique prend 10 à 15 minutes par prospect.</p>
+          </div>
+          <div class="blk">
+            <p class="lbl" style="margin-bottom:7px" data-i18n="l_sol">Solution</p>
+            <p data-i18n="p2_sol">Un workflow n8n qui reçoit le texte d'un profil et la niche visée (marketing ou Odoo), puis produit via un LLM à <strong>sortie JSON imposée</strong> un résumé, trois douleurs probables, une accroche et <strong>trois messages</strong> : court (280 caractères max), standard et premium. Chaque résultat est enregistré dans une Data Table n8n, Google Sheets et Notion.</p>
+          </div>
+          <div class="blk">
+            <p class="lbl" style="margin-bottom:7px" data-i18n="l_res">Résultat</p>
+            <p class="res" data-i18n="p2_res">3 messages prêts à envoyer par profil, en trois longueurs. La préparation passe d'environ 10 minutes à moins de 30 secondes.</p>
+          </div>
+          <div class="blk">
+            <p class="lbl" style="margin-bottom:7px" data-i18n="l_lim">Limites</p>
+            <p data-i18n="p2_lim">L'agent ne récupère pas le profil lui-même : à cause des protections anti-scraping de LinkedIn, on lui colle le texte du profil (ou un export Sales Navigator). Pas encore de mode par lots ni de gestion d'erreurs explicite.</p>
+          </div>
+        </div>
+        <div>
+          <svg class="schema" viewBox="0 0 480 150" role="img" aria-labelledby="p2sch">
+            <title id="p2sch" data-i18n="p2_schema">Le texte du profil arrive par le chat n8n, passe dans une chaîne LLM OpenAI à sortie JSON imposée, est normalisé en JavaScript puis enregistré dans une Data Table, Google Sheets et Notion.</title>
+            <rect class="bx" x="1" y="10" width="120" height="50" rx="2"/>
+            <text class="n" x="61" y="32" text-anchor="middle">Chat n8n</text>
+            <text class="c" x="61" y="48" text-anchor="middle" data-i18n="s2_in">PROFIL + NICHE</text>
+
+            <rect class="bx-on" x="160" y="10" width="160" height="50" rx="2"/>
+            <text class="n-on" x="240" y="32" text-anchor="middle" data-i18n="s2_llm">Chaîne LLM</text>
+            <text class="c" x="240" y="48" text-anchor="middle">OPENAI + PARSER JSON</text>
+
+            <rect class="bx" x="359" y="10" width="120" height="50" rx="2"/>
+            <text class="n" x="419" y="32" text-anchor="middle">Code JS</text>
+            <text class="c" x="419" y="48" text-anchor="middle" data-i18n="s2_norm">NORMALISATION</text>
+
+            <path class="fl" d="M121 35 H159"/><path class="fl" d="M153 31 L159 35 L153 39"/>
+            <path class="fl" d="M320 35 H358"/><path class="fl" d="M352 31 L358 35 L352 39"/>
+
+            <path class="fl" d="M419 60 V80 H70 V103"/><path class="fl" d="M240 80 V103"/><path class="fl" d="M410 80 V103"/>
+            <path class="fl" d="M66 97 L70 103 L74 97"/><path class="fl" d="M236 97 L240 103 L244 97"/><path class="fl" d="M406 97 L410 103 L414 97"/>
+
+            <rect class="bx" x="15" y="104" width="110" height="36" rx="2"/>
+            <text class="n" x="70" y="126" text-anchor="middle">Data Table</text>
+            <rect class="bx" x="185" y="104" width="110" height="36" rx="2"/>
+            <text class="n" x="240" y="126" text-anchor="middle">Sheets</text>
+            <rect class="bx" x="355" y="104" width="110" height="36" rx="2"/>
+            <text class="n" x="410" y="126" text-anchor="middle">Notion</text>
+          </svg>
+
+          <p class="lbl" style="margin-bottom:9px" data-i18n="l_stack">Stack</p>
+          <div class="tags" style="margin-bottom:18px">
+            <span class="tag tag--on">n8n</span><span class="tag tag--on">OpenAI API</span>
+            <span class="tag">LangChain (n8n)</span><span class="tag" data-i18n="tag_json">Sortie JSON structurée</span>
+            <span class="tag">Notion API</span><span class="tag">Google Sheets</span>
+          </div>
+          <a class="golink push" href="https://github.com/seder2610/linkedin-prospecting-agent-n8n" target="_blank" rel="noopener">
+            <span data-i18n="l_gh">Ouvrir le dépôt &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <article class="t proj t--cut-alt" data-idx="07" id="p3" aria-labelledby="p3t">
+      <div class="proj-top">
+        <span class="chip" data-i18n="p3_tag">Architecture 03 · Automatisation métier</span>
+      </div>
+      <h3 id="p3t" data-i18n="p3_title">Relances de devis automatiques &mdash; module Odoo 18</h3>
+
+      <div class="proj-grid">
+        <div>
+          <div class="blk">
+            <p class="lbl" style="margin-bottom:7px" data-i18n="l_pb">Problématique</p>
+            <p data-i18n="p3_pb">Un devis envoyé sans réponse finit souvent oublié : personne ne sait lequel relancer, quand, ni sur quel ton, et tout dépend de la mémoire du commercial.</p>
+          </div>
+          <div class="blk">
+            <p class="lbl" style="margin-bottom:7px" data-i18n="l_sol">Solution</p>
+            <p data-i18n="p3_sol">Un module Odoo 18 avec un <strong>cron quotidien</strong> qui relance les devis restés sans réponse à <strong>J+3, J+7 et J+14</strong>, sur un ton de plus en plus ferme, par email, par activité assignée ou les deux. Un devis auquel le client a répondu est exclu automatiquement.</p>
+          </div>
+          <div class="blk">
+            <p class="lbl" style="margin-bottom:7px" data-i18n="l_res">Résultat</p>
+            <p class="res" data-i18n="p3_res">Chaque relance est horodatée sur le devis (onglet Relances), un filtre montre ce qui attend, et le moteur fait un nombre fixe de requêtes quel que soit le nombre de devis (pas de N+1).</p>
+          </div>
+        </div>
+
+        <div>
+          <figure class="shot">
+            <img src="assets/sqf-list.webp" alt="Liste des devis Odoo filtrée sur « En attente de relance », avec la colonne Jours depuis envoi" data-i18n-alt="p3_img_alt" loading="lazy" width="1400" height="374">
+          </figure>
+
+          <p class="lbl" style="margin-bottom:9px" data-i18n="l_stack">Stack</p>
+          <div class="tags" style="margin-bottom:18px">
+            <span class="tag tag--on">Odoo 18</span><span class="tag tag--on">Python</span>
+            <span class="tag">ORM</span><span class="tag">Cron</span>
+            <span class="tag">mail.template</span><span class="tag" data-i18n="tag_xml">Vues XML</span>
+          </div>
+
+          <p class="lbl" style="margin-bottom:7px" data-i18n="l_cons">Contraintes</p>
+          <p style="font-size:13px;line-height:1.7;font-family:var(--sans)" data-i18n="p3_cons">Délais, canal et responsable réglables dans les paramètres Ventes. Bouton « Relancer maintenant » et case « Ne pas relancer ». 10 devis de démonstration couvrent tous les cas.</p>
+
+          <a class="golink push" href="https://github.com/seder2610/sale-quote-followup" target="_blank" rel="noopener">
+            <span data-i18n="l_gh">Ouvrir le dépôt &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    </div><!-- /.proj-flow -->
+  </div><!-- /.proj-zone -->
+
+  <!-- ░░ 08 · CE QUE JE CONSTRUIS ░░ -->
+  <section class="t t--sunk c3 m-3" data-idx="08" aria-labelledby="bt">
+    <p class="lbl" data-i18n="b_eyebrow">Ce que je construis</p>
+    <h2 id="bt" style="font-size:23px;margin:14px 0 12px" data-i18n="b_title">Trois familles de systèmes.</h2>
+    <p class="b-text" data-i18n="b_intro">Trois types de systèmes que je construis, tous pensés pour se brancher sur les outils existants d'une entreprise (ERP, CRM, API tierces). Les exemples ci-dessus sont des projets publics que vous pouvez ouvrir.</p>
+  </section>
+
+  <div class="t c3 m-3" data-idx="—">
+    <span class="b-num">01 &middot; Documents</span>
+    <h3 class="b-title" data-i18n="b1_t">Traitement documentaire</h3>
+    <p class="b-text" data-i18n="b1_d">Ce que je peux construire : extraire les données de factures, contrats ou PDF et les injecter dans votre ERP ou votre base de données, à la place d'une ressaisie manuelle.</p>
+  </div>
+
+  <div class="t t--accent c3 m-3" data-idx="—">
+    <span class="b-num">02 &middot; Agents</span>
+    <h3 class="b-title" data-i18n="b2_t">Agents autonomes</h3>
+    <p class="b-text" data-i18n="b2_d">Des agents LLM qui appellent de vraies API et écrivent en base plutôt que de répondre à des questions. L'agent de prospection LinkedIn en est un exemple.</p>
+    <a class="b-link push" href="#p2" data-i18n="b2_link">Voir l'exemple &uarr;</a>
+  </div>
+
+  <div class="t c3 m-3" data-idx="—">
+    <span class="b-num">03 &middot; Workflows</span>
+    <h3 class="b-title" data-i18n="b3_t">Automatisation métier</h3>
+    <p class="b-text" data-i18n="b3_d">Workflows événementiels reliant ERP, CRM et services tiers, avec webhooks signés et tâches planifiées. n8n-bridge et le module de relances de devis en sont les exemples ci-dessus.</p>
+    <a class="b-link push" href="#p1" data-i18n="b3_link">Voir l'exemple &uarr;</a>
+  </div>
+
+  <!-- ░░ PHOTO (facultative) ░░ -->
+  <figure class="t photo c4 m-6" data-idx="—">
+    <img src="profil.webp" alt="Portrait de Sedera Andriamanga" data-i18n-alt="photo_alt" loading="lazy" width="900" height="1125">
+    <figcaption data-i18n="photo_cap">Antananarivo, Madagascar</figcaption>
+  </figure>
+
+  <!-- ░░ 09 · CHIFFRES ░░ -->
+  <section class="t t--paper c4 m-3" data-idx="09" aria-labelledby="nt">
+    <h2 class="lbl" id="nt" data-i18n="n_title">Poste précédent · 2024&ndash;2026</h2>
+    <div class="nums">
+      <div class="num"><div class="v"><span class="cnt" data-count="61">61</span></div><div class="k" data-i18n="n1">Projets livrés en production</div></div>
+      <div class="num"><div class="v">12&thinsp;&rarr;&thinsp;19</div><div class="k" data-i18n="n2">Versions Odoo couvertes</div></div>
+      <div class="num"><div class="v"><span class="cnt" data-count="4100">4&#8239;100</span><small>+</small></div><div class="k" data-i18n="n3">Contributions de code (12 mois)</div></div>
+      <div class="num"><div class="v" data-i18n="n4v">2<small> ans</small></div><div class="k" data-i18n="n4">D'expérience ERP en production</div></div>
+    </div>
+    <p class="caveat push" data-i18n="n_caveat">Ces chiffres viennent du poste salarié, pas de ce site. Les projets ci-dessus sont vérifiables sur GitHub.</p>
+  </section>
+
+  <!-- ░░ 10 · OUTILS ░░ -->
+  <section class="t c4 m-3" data-idx="10" aria-labelledby="tt">
+    <h2 class="lbl" id="tt" data-i18n="t_title">Boîte à outils</h2>
+    <div class="tools">
+      <span class="tool tool--on">Python</span><span class="tool tool--on">n8n</span>
+      <span class="tool tool--on">Claude API</span><span class="tool tool--on">OpenAI API</span>
+      <span class="tool">Odoo</span><span class="tool">PostgreSQL</span><span class="tool">Docker</span>
+      <span class="tool">REST API</span><span class="tool">HMAC / Auth</span>
+      <span class="tool">Git</span><span class="tool">Linux</span><span class="tool">Prompt engineering</span>
+    </div>
+  </section>
+
+  <!-- ░░ 11 · PARCOURS ░░ -->
+  <section class="t t--paper c12 m-6" data-idx="11" id="exp" aria-labelledby="et">
+    <h2 class="lbl" id="et" data-i18n="e_title">Parcours</h2>
+    <div class="tl">
+      <div class="tl-row">
+        <span class="yr" data-i18n="e1_y">2026 &mdash; présent</span>
+        <span class="rl" data-i18n="e1_r">Indépendant &mdash; ingénieur IA &amp; automatisation</span>
+        <span class="co" data-i18n="e1_c">Remote (Madagascar &rarr; Europe)</span>
+        <p class="de" data-i18n="e1_d">Agents n8n + LLM, modules Odoo et passerelles d'intégration publiés en open source.</p>
+      </div>
+      <div class="tl-row">
+        <span class="yr" data-i18n="e2_y">Avril 2024 &mdash; juin 2026</span>
+        <span class="rl" data-i18n="e2_r">Développeur fullstack Odoo</span>
+        <span class="co" data-i18n="e2_c">MTechniix &mdash; Madagascar, hybride</span>
+        <p class="de" data-i18n="e2_d"><strong>61 projets livrés en production</strong> sur Odoo 12 à 19 : achats, ventes, stocks, facturation, CRM, modules métiers sur mesure, dont des clients restés sur d'anciennes versions non migrées.</p>
+      </div>
+      <div class="tl-row">
+        <span class="yr" data-i18n="e3_y">2024</span>
+        <span class="rl" data-i18n="e3_r">Master 1 &mdash; Informatique</span>
+        <span class="co" data-i18n="e3_c">ISPM Antsobolo, Antananarivo</span>
+        <p class="de" data-i18n="e3_d">Niveau bac+4.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ 12 · POUR LES RECRUTEURS ░░ -->
+  <section class="t t--sunk c6 m-6" data-idx="12" id="rec" aria-labelledby="rt">
+    <h2 class="lbl" id="rt" data-i18n="r_eyebrow">Pour les recruteurs</h2>
+    <dl class="facts">
+      <div class="fact"><dt data-i18n="r_av_k">Disponibilité</dt><dd data-i18n="r_av_v">Immédiate — CDI ou mission</dd></div>
+      <div class="fact"><dt data-i18n="r_tz_k">Fuseau horaire</dt><dd data-i18n="r_tz_v">UTC+3 (Antananarivo) — 1 h d'avance sur Paris en été, 2 h en hiver</dd></div>
+      <div class="fact"><dt data-i18n="r_lg_k">Langues</dt><dd data-i18n="r_lg_v">Français : courant · Anglais : professionnel à l'écrit · Malgache : langue maternelle</dd></div>
+      <div class="fact"><dt data-i18n="r_mb_k">Mobilité</dt><dd data-i18n="r_mb_v">Ouvert à la relocalisation en France, Belgique ou Suisse.</dd></div>
+    </dl>
+    <a class="btn btn--fill push" href="cv-sedera-andriamanga.pdf" download data-i18n-href="cv_href" data-i18n="c_btn_cv">Télécharger mon CV (PDF)</a>
+  </section>
+
+  <!-- ░░ 13 · OFFRES ░░ -->
+  <section class="t c6 m-6" data-idx="13" id="off" aria-labelledby="ot">
+    <h2 class="lbl" id="ot" data-i18n="o_eyebrow">Missions freelance</h2>
+    <div class="offers">
+      <div class="offer">
+        <h3 data-i18n="o1_t">Brancher Odoo sur vos automatisations</h3>
+        <p data-i18n="o1_d">Webhooks signés, n8n et IA qui lit et écrit dans Odoo, de la v12 à la v19.</p>
+        <p class="price" data-i18n="o_price">Sur devis</p>
+        <a class="btn btn--line" href="mailto:sedera@sedera-pro.com?subject=Mission%20%E2%80%94%20Int%C3%A9gration%20Odoo" data-i18n-href="o1_href" data-i18n="o_btn">Demander un devis</a>
+      </div>
+      <div class="offer">
+        <h3 data-i18n="o2_t">Un workflow IA sur un processus précis</h3>
+        <p data-i18n="o2_d">Relances, prospection, reporting : un workflow n8n + LLM livré documenté, sur un processus que vous choisissez.</p>
+        <p class="price" data-i18n="o_price">Sur devis</p>
+        <a class="btn btn--line" href="mailto:sedera@sedera-pro.com?subject=Mission%20%E2%80%94%20Workflow%20IA" data-i18n-href="o2_href" data-i18n="o_btn">Demander un devis</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ 14 · MÉTHODE ░░ -->
+  <section class="t t--sunk c12 m-6" data-idx="14" aria-labelledby="ap">
+    <p class="lbl" data-i18n="a_eyebrow">Méthode de travail</p>
+    <h2 id="ap" style="font-size:21px;margin-top:12px" data-i18n="a_title">Quatre règles qui ne bougent pas.</h2>
+    <div class="principles principles--4">
+      <div class="principle">
+        <h3 data-i18n="a1_t">Réflexes de production</h3>
+        <p data-i18n="a1_d">Deux ans de livraisons Odoo en production m'ont appris à prévoir la file d'attente, la reprise sur erreur et les droits d'accès dès la démo, pas après.</p>
+      </div>
+      <div class="principle">
+        <h3 data-i18n="a2_t">Des métriques réelles</h3>
+        <p data-i18n="a2_d">Les chiffres affichés viennent d'un poste identifiable ou d'un dépôt qu'on peut ouvrir, jamais d'une estimation flatteuse.</p>
+      </div>
+      <div class="principle">
+        <h3 data-i18n="a3_t">Intégration opérationnelle</h3>
+        <p data-i18n="a3_d">Les systèmes se branchent sur de vrais outils (Odoo, PostgreSQL, Notion, Google Sheets, API d'IA), pas sur des bouchons de démonstration.</p>
+      </div>
+      <div class="principle">
+        <h3 data-i18n="a4_t">Code clair &amp; auditable</h3>
+        <p data-i18n="a4_d">Dépôts publics, modules documentés. On peut lire comment ça marche, et pourquoi chaque décision a été prise ainsi.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ 15 · CONTACT ░░ -->
+  <section class="t t--accent t--cut cta c12" data-idx="15" id="ct" aria-labelledby="ctt">
+    <p class="lbl" data-i18n="c_eyebrow">Prochaine étape</p>
+    <h2 id="ctt" data-i18n="c_title">On regarde <em>votre</em> flux le plus lent ?</h2>
+    <p data-i18n="c_sub">Disponible pour des missions freelance, des projets d'automatisation sur mesure et des postes en CDI. Basé à Antananarivo, ouvert au télétravail international ou à une relocalisation en Europe.</p>
+    <div class="cta-row">
+      <a class="btn btn--invert" href="mailto:sedera@sedera-pro.com" data-i18n="c_btn">Écrire un message</a>
+      <a class="btn btn--outline" href="cv-sedera-andriamanga.pdf" download data-i18n-href="cv_href" data-i18n="c_btn_cv">Télécharger mon CV (PDF)</a>
+      <a class="mail" href="mailto:sedera@sedera-pro.com">sedera@sedera-pro.com</a>
+      <a class="soc" href="https://www.linkedin.com/in/sedera-andriamanga" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="soc" href="https://github.com/seder2610" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="hem">
+  <span>&copy; <span id="y"></span> Sedera Andriamanga</span>
+  <span data-i18n="f_loc">Ingénieur IA &amp; automatisation &mdash; Antananarivo</span>
+</footer>
+
+<script>
+/* ==========================================================================
+   I18N
+   ====================================================================== */
+var translations = {
+  fr: {
+    meta_title: "Sedera Andriamanga — Ingénieur IA · Automatisation",
+    meta_desc: "Je conçois des pipelines d'automatisation et des systèmes IA taillés pour la production. Python · n8n · LLM · Odoo · PostgreSQL.",
+    skip: "Aller au contenu",
+    role: "Ingénieur IA · Automatisation",
+    remote: "Télétravail international",
+    j_work: "Projets", j_exp: "Parcours", j_contact: "Contact",
+    h1: "Vos flux métier tournent déjà. Je fais en sorte qu'ils tournent <em>seuls</em>.",
+    sub: "Pipelines d'automatisation et systèmes IA branchés sur de vrais outils d'entreprise : extraction documentaire, agents qui agissent réellement, workflows qui relient Odoo, CRM et API tierces.",
+    cta_work: "Voir les projets", cta_talk: "Me contacter",
+    st_v: "Missions freelance & CDI", st_k: "Disponible maintenant",
+    gh_k: "Le code se lit →",
+    photo_cap: "Antananarivo, Madagascar",
+    photo_alt: "Portrait de Sedera Andriamanga",
+    b_eyebrow: "Ce que je construis",
+    b_title: "Trois familles de systèmes.",
+    b_intro: "Trois types de systèmes que je construis, tous pensés pour se brancher sur les outils existants d'une entreprise (ERP, CRM, API tierces). Les exemples ci-dessus sont des projets publics que vous pouvez ouvrir.",
+    b1_t: "Traitement documentaire",
+    b1_d: "Ce que je peux construire : extraire les données de factures, contrats ou PDF et les injecter dans votre ERP ou votre base de données, à la place d'une ressaisie manuelle.",
+    b2_t: "Agents autonomes",
+    b2_d: "Des agents LLM qui appellent de vraies API et écrivent en base plutôt que de répondre à des questions. L'agent de prospection LinkedIn en est un exemple.",
+    b2_link: "Voir l'exemple ↑",
+    b3_t: "Automatisation métier",
+    b3_d: "Workflows événementiels reliant ERP, CRM et services tiers, avec webhooks signés et tâches planifiées. n8n-bridge et le module de relances de devis en sont les exemples ci-dessus.",
+    b3_link: "Voir l'exemple ↑",
+    a_eyebrow: "Méthode de travail",
+    a_title: "Quatre règles qui ne bougent pas.",
+    a1_t: "Réflexes de production",
+    a1_d: "Deux ans de livraisons Odoo en production m'ont appris à prévoir la file d'attente, la reprise sur erreur et les droits d'accès dès la démo, pas après.",
+    a2_t: "Des métriques réelles",
+    a2_d: "Les chiffres affichés viennent d'un poste identifiable ou d'un dépôt qu'on peut ouvrir, jamais d'une estimation flatteuse.",
+    a3_t: "Intégration opérationnelle",
+    a3_d: "Les systèmes se branchent sur de vrais outils (Odoo, PostgreSQL, Notion, Google Sheets, API d'IA), pas sur des bouchons de démonstration.",
+    a4_t: "Code clair & auditable",
+    a4_d: "Dépôts publics, modules documentés. On peut lire comment ça marche, et pourquoi chaque décision a été prise ainsi.",
+    p_eyebrow: "Projets",
+    l_pb: "Problématique", l_sol: "Solution", l_res: "Résultat",
+    l_stack: "Stack", l_cons: "Contraintes", l_lim: "Limites", l_gh: "Ouvrir le dépôt →",
+    p1_tag: "Architecture 03 · Automatisation métier",
+    p1_title: "n8n-bridge — module d'intégration Odoo ↔ n8n",
+    p1_schema: "Le module n8n-bridge, installé dans Odoo 17, envoie des webhooks signés HMAC vers n8n via une file d'attente ; n8n répond par un point d'entrée protégé par clé API et liste blanche.",
+    s1_q: "FILE + CRON", s1_k: "CLÉ API", s1_w: "LISTE BLANCHE",
+    p1_pb: "L'automatisation intégrée d'Odoo s'arrête à ses propres frontières. Une commande validée, un mouvement de stock, un nouveau contact : rien de tout ça ne peut déclencher un workflow externe sans un pont qui tienne en production.",
+    p1_sol: "Un module Odoo 17 qui expose les événements métier (commande confirmée, livraison validée, facture comptabilisée) sous forme de <strong>webhooks signés HMAC-SHA256</strong>, mis en file d'attente et renvoyés jusqu'à 5 fois en cas d'échec. En retour, n8n écrit dans Odoo par <strong>un point d'entrée unique protégé par clé API</strong>.",
+    p1_res: "Une seule configuration pour relier Odoo à n'importe quel moteur d'automatisation, au lieu d'un connecteur bricolé par workflow. Démo écrite de zéro, sans code client, installée et testée sur Odoo 17.",
+    p1_cons: "Rester dans l'ORM et le modèle de droits d'Odoo : chaque appel entrant s'exécute sous l'utilisateur lié à la clé, et seuls les modèles, méthodes et champs d'une liste blanche sont accessibles. L'envoi passe par un cron, pour qu'un n8n lent ou arrêté ne bloque jamais une vente.",
+    p2_tag: "Architecture 02 · Agent autonome",
+    p2_title: "Agent de prospection LinkedIn",
+    p2_schema: "Le texte du profil arrive par le chat n8n, passe dans une chaîne LLM OpenAI à sortie JSON imposée, est normalisé en JavaScript puis enregistré dans une Data Table, Google Sheets et Notion.",
+    s2_in: "PROFIL + NICHE", s2_llm: "Chaîne LLM", s2_norm: "NORMALISATION",
+    p2_pb: "Lire un profil, repérer une accroche pertinente et écrire un message qui ne sonne pas générique prend 10 à 15 minutes par prospect.",
+    p2_sol: "Un workflow n8n qui reçoit le texte d'un profil et la niche visée (marketing ou Odoo), puis produit via un LLM à <strong>sortie JSON imposée</strong> un résumé, trois douleurs probables, une accroche et <strong>trois messages</strong> : court (280 caractères max), standard et premium. Chaque résultat est enregistré dans une Data Table n8n, Google Sheets et Notion.",
+    p2_res: "3 messages prêts à envoyer par profil, en trois longueurs. La préparation passe d'environ 10 minutes à moins de 30 secondes.",
+    p2_lim: "L'agent ne récupère pas le profil lui-même : à cause des protections anti-scraping de LinkedIn, on lui colle le texte du profil (ou un export Sales Navigator). Pas encore de mode par lots ni de gestion d'erreurs explicite.",
+    tag_json: "Sortie JSON structurée",
+    p3_tag: "Architecture 03 · Automatisation métier",
+    p3_title: "Relances de devis automatiques — module Odoo 18",
+    p3_pb: "Un devis envoyé sans réponse finit souvent oublié : personne ne sait lequel relancer, quand, ni sur quel ton, et tout dépend de la mémoire du commercial.",
+    p3_sol: "Un module Odoo 18 avec un <strong>cron quotidien</strong> qui relance les devis restés sans réponse à <strong>J+3, J+7 et J+14</strong>, sur un ton de plus en plus ferme, par email, par activité assignée ou les deux. Un devis auquel le client a répondu est exclu automatiquement.",
+    p3_res: "Chaque relance est horodatée sur le devis (onglet Relances), un filtre montre ce qui attend, et le moteur fait un nombre fixe de requêtes quel que soit le nombre de devis (pas de N+1).",
+    p3_cons: "Délais, canal et responsable réglables dans les paramètres Ventes. Bouton « Relancer maintenant » et case « Ne pas relancer ». 10 devis de démonstration couvrent tous les cas.",
+    p3_img_alt: "Liste des devis Odoo filtrée sur « En attente de relance », avec la colonne Jours depuis envoi",
+    tag_xml: "Vues XML",
+    n_title: "Poste précédent · 2024–2026",
+    n1: "Projets livrés en production", n2: "Versions Odoo couvertes",
+    n3: "Contributions de code (12 mois)", n4v: "2<small> ans</small>", n4: "D'expérience ERP en production",
+    n_caveat: "Ces chiffres viennent du poste salarié, pas de ce site. Les projets ci-dessus sont vérifiables sur GitHub.",
+    t_title: "Boîte à outils",
+    e_title: "Parcours",
+    e1_y: "2026 — présent", e1_r: "Indépendant — ingénieur IA & automatisation", e1_c: "Remote (Madagascar → Europe)",
+    e1_d: "Agents n8n + LLM, modules Odoo et passerelles d'intégration publiés en open source.",
+    e2_y: "Avril 2024 — juin 2026", e2_r: "Développeur fullstack Odoo", e2_c: "MTechniix — Madagascar, hybride",
+    e2_d: "<strong>61 projets livrés en production</strong> sur Odoo 12 à 19 : achats, ventes, stocks, facturation, CRM, modules métiers sur mesure, dont des clients restés sur d'anciennes versions non migrées.",
+    e3_y: "2024", e3_r: "Master 1 — Informatique", e3_c: "ISPM Antsobolo, Antananarivo",
+    e3_d: "Niveau bac+4.",
+    r_eyebrow: "Pour les recruteurs",
+    r_av_k: "Disponibilité", r_av_v: "Immédiate — CDI ou mission",
+    r_tz_k: "Fuseau horaire", r_tz_v: "UTC+3 (Antananarivo) — 1 h d'avance sur Paris en été, 2 h en hiver",
+    r_lg_k: "Langues", r_lg_v: "Français : courant · Anglais : professionnel à l'écrit · Malgache : langue maternelle",
+    r_mb_k: "Mobilité", r_mb_v: "Ouvert à la relocalisation en France, Belgique ou Suisse.",
+    o_eyebrow: "Missions freelance",
+    o1_t: "Brancher Odoo sur vos automatisations",
+    o1_d: "Webhooks signés, n8n et IA qui lit et écrit dans Odoo, de la v12 à la v19.",
+    o2_t: "Un workflow IA sur un processus précis",
+    o2_d: "Relances, prospection, reporting : un workflow n8n + LLM livré documenté, sur un processus que vous choisissez.",
+    o_price: "Sur devis", o_btn: "Demander un devis",
+    o1_href: "mailto:sedera@sedera-pro.com?subject=Mission%20%E2%80%94%20Int%C3%A9gration%20Odoo",
+    o2_href: "mailto:sedera@sedera-pro.com?subject=Mission%20%E2%80%94%20Workflow%20IA",
+    c_eyebrow: "Prochaine étape",
+    c_title: "On regarde <em>votre</em> flux le plus lent ?",
+    c_sub: "Disponible pour des missions freelance, des projets d'automatisation sur mesure et des postes en CDI. Basé à Antananarivo, ouvert au télétravail international ou à une relocalisation en Europe.",
+    c_btn: "Écrire un message",
+    c_btn_cv: "Télécharger mon CV (PDF)",
+    cv_href: "cv-sedera-andriamanga.pdf",
+    f_loc: "Ingénieur IA & automatisation — Antananarivo",
+    th_light: "Activer le mode clair", th_dark: "Activer le mode sombre"
+  },
+
+  en: {
+    meta_title: "Sedera Andriamanga — AI Engineer · Automation",
+    meta_desc: "I build automation pipelines and AI systems that run in production. Python · n8n · LLM · Odoo · PostgreSQL.",
+    skip: "Skip to content",
+    role: "AI Engineer · Automation",
+    remote: "Remote worldwide",
+    j_work: "Work", j_exp: "Background", j_contact: "Contact",
+    h1: "Your business runs on flows that already exist. I get them running on their <em>own</em>.",
+    sub: "Automation pipelines and AI systems wired into real business tools: document extraction, agents that actually act, workflows connecting Odoo, CRMs and third-party APIs.",
+    cta_work: "See the work", cta_talk: "Get in touch",
+    st_v: "Freelance & full-time", st_k: "Available now",
+    gh_k: "The code is readable →",
+    photo_cap: "Antananarivo, Madagascar",
+    photo_alt: "Portrait of Sedera Andriamanga",
+    b_eyebrow: "What I build",
+    b_title: "Three families of systems.",
+    b_intro: "Three kinds of systems I build, all designed to plug into a company's existing tools (ERP, CRM, third-party APIs). The examples above are public projects you can open.",
+    b1_t: "Document processing",
+    b1_d: "What I can build: pull data out of invoices, contracts or PDFs and push it into your ERP or database, instead of typing it in by hand.",
+    b2_t: "Autonomous agents",
+    b2_d: "LLM agents that call real APIs and write to real databases instead of just answering questions. The LinkedIn prospecting agent is one of them.",
+    b2_link: "See the example ↑",
+    b3_t: "Business automation",
+    b3_d: "Event-driven workflows connecting ERPs, CRMs and third-party services, with signed webhooks and scheduled jobs. n8n-bridge and the quotation follow-up module above are the examples.",
+    b3_link: "See the example ↑",
+    a_eyebrow: "How I work",
+    a_title: "Four rules that don't move.",
+    a1_t: "Production habits",
+    a1_d: "Two years of shipping Odoo to production taught me to plan for queues, retries and access rights from the demo stage, not afterwards.",
+    a2_t: "Real metrics only",
+    a2_d: "What's shown comes from an identifiable role or a repository you can open, never a rounded-up estimate.",
+    a3_t: "Real integration",
+    a3_d: "Systems plug into real tools (Odoo, PostgreSQL, Notion, Google Sheets, AI APIs), not mock endpoints.",
+    a4_t: "Readable, auditable code",
+    a4_d: "Public repositories, documented modules. You can read how it works, and why each call was made that way.",
+    p_eyebrow: "Work",
+    l_pb: "Problem", l_sol: "Solution", l_res: "Result",
+    l_stack: "Stack", l_cons: "Constraints", l_lim: "Limitations", l_gh: "Open the repository →",
+    p1_tag: "Architecture 03 · Business automation",
+    p1_title: "n8n-bridge — Odoo ↔ n8n integration module",
+    p1_schema: "The n8n-bridge module, installed inside Odoo 17, sends HMAC-signed webhooks to n8n through a queue; n8n answers through an entry point protected by an API key and a whitelist.",
+    s1_q: "QUEUE + CRON", s1_k: "API KEY", s1_w: "WHITELIST",
+    p1_pb: "Odoo's built-in automation stops at Odoo's own edges. A confirmed sale, a stock move, a new contact: none of it can trigger an external workflow without a bridge that actually holds up in production.",
+    p1_sol: "An Odoo 17 module that exposes business events (sale confirmed, delivery done, invoice posted) as <strong>HMAC-SHA256 signed webhooks</strong>, queued and retried up to 5 times on failure. On the way back, n8n writes into Odoo through <strong>a single API-key protected entry point</strong>.",
+    p1_res: "One configuration screen to connect Odoo to any automation engine, instead of one ad-hoc connector per workflow. A clean-room demo with no client code, installed and tested on Odoo 17.",
+    p1_cons: "Stay inside Odoo's ORM and access-rights model: every inbound call runs as the user tied to the key, and only whitelisted models, methods and fields are reachable. Delivery runs from a cron, so a slow or down n8n never blocks a sale.",
+    p2_tag: "Architecture 02 · Autonomous agent",
+    p2_title: "LinkedIn Prospecting Agent",
+    p2_schema: "The profile text comes in through the n8n chat, goes through an OpenAI LLM chain with enforced JSON output, is normalised in JavaScript, then logged to a Data Table, Google Sheets and Notion.",
+    s2_in: "PROFILE + NICHE", s2_llm: "LLM chain", s2_norm: "NORMALISE",
+    p2_pb: "Reading a profile, finding a hook that lands and writing a message that doesn't sound generic takes 10 to 15 minutes per prospect.",
+    p2_sol: "An n8n workflow that takes a profile's text and the target niche (marketing or Odoo), then uses an LLM with <strong>enforced JSON output</strong> to produce a summary, three likely pain points, a hook and <strong>three messages</strong>: short (280 characters max), standard and premium. Every result is logged to an n8n Data Table, Google Sheets and Notion.",
+    p2_res: "3 ready-to-send messages per profile, in three lengths. Prep time drops from roughly 10 minutes to under 30 seconds.",
+    p2_lim: "The agent doesn't fetch the profile itself: because of LinkedIn's anti-scraping protections, you paste in the profile text (or a Sales Navigator export). No batch mode or explicit error handling yet.",
+    tag_json: "Structured output",
+    p3_tag: "Architecture 03 · Business automation",
+    p3_title: "Automatic quotation follow-ups — Odoo 18 module",
+    p3_pb: "A quotation sent without a reply often gets forgotten: nobody knows which one to chase, when, or in what tone, and it all depends on the salesperson's memory.",
+    p3_sol: "An Odoo 18 module with a <strong>daily cron</strong> that follows up unanswered quotations at <strong>D+3, D+7 and D+14</strong>, in an increasingly firm tone, by email, by assigned activity, or both. A quotation the customer has replied to is excluded automatically.",
+    p3_res: "Every follow-up is timestamped on the quotation (Follow-ups tab), a filter shows what's waiting, and the engine runs a fixed number of queries whatever the number of quotations (no N+1).",
+    p3_cons: "Delays, channel and owner are configurable in Sales settings. \"Follow up now\" button and \"Do not follow up\" checkbox. 10 demo quotations cover every case.",
+    p3_img_alt: "Odoo quotation list filtered on \"Awaiting follow-up\", with the Days since sent column",
+    tag_xml: "XML views",
+    n_title: "Previous role · 2024–2026",
+    n1: "Projects shipped to production", n2: "Odoo versions covered",
+    n3: "Code contributions (12 months)", n4v: "2<small> yrs</small>", n4: "Production ERP experience",
+    n_caveat: "These numbers come from the salaried role, not from this site. The projects above are verifiable on GitHub.",
+    t_title: "Toolbox",
+    e_title: "Background",
+    e1_y: "2026 — present", e1_r: "Independent — AI & automation engineer", e1_c: "Remote (Madagascar → Europe)",
+    e1_d: "n8n + LLM agents, Odoo modules and integration bridges published as open source.",
+    e2_y: "April 2024 — June 2026", e2_r: "Fullstack Odoo developer", e2_c: "MTechniix — Madagascar, hybrid",
+    e2_d: "<strong>61 projects delivered to production</strong> across Odoo 12 to 19: purchasing, sales, inventory, invoicing, CRM, custom business modules, including clients still on older, unmigrated versions.",
+    e3_y: "2024", e3_r: "Master 1 — Computer Science", e3_c: "ISPM Antsobolo, Antananarivo",
+    e3_d: "Four years of higher education (bac+4).",
+    r_eyebrow: "For recruiters",
+    r_av_k: "Availability", r_av_v: "Immediate — full-time or contract",
+    r_tz_k: "Time zone", r_tz_v: "UTC+3 (Antananarivo) — 1 h ahead of Paris in summer, 2 h in winter",
+    r_lg_k: "Languages", r_lg_v: "French: fluent · English: professional (written) · Malagasy: native",
+    r_mb_k: "Mobility", r_mb_v: "Open to relocating to France, Belgium or Switzerland.",
+    o_eyebrow: "Freelance work",
+    o1_t: "Connect Odoo to your automations",
+    o1_d: "Signed webhooks, n8n and AI that reads and writes in Odoo, from v12 to v19.",
+    o2_t: "An AI workflow for one specific process",
+    o2_d: "Follow-ups, prospecting, reporting: an n8n + LLM workflow delivered with documentation, on a process you choose.",
+    o_price: "Quote on request", o_btn: "Request a quote",
+    o1_href: "mailto:sedera@sedera-pro.com?subject=Project%20%E2%80%94%20Odoo%20integration",
+    o2_href: "mailto:sedera@sedera-pro.com?subject=Project%20%E2%80%94%20AI%20workflow",
+    c_eyebrow: "Next step",
+    c_title: "Want to look at <em>your</em> slowest flow?",
+    c_sub: "Available for freelance work, custom automation projects and full-time positions. Based in Antananarivo, open to remote worldwide or relocation to Europe.",
+    c_btn: "Send a message",
+    c_btn_cv: "Download my résumé (PDF)",
+    cv_href: "cv-sedera-andriamanga-en.pdf",
+    f_loc: "AI & automation engineer — Antananarivo",
+    th_light: "Switch to light mode", th_dark: "Switch to dark mode"
+  }
+};
+
+var lang = 'fr';
+
+function setLanguage(next) {
+  var d = translations[next];
+  if (!d) return;
+  lang = next;
+
+  document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    var v = d[el.getAttribute('data-i18n')];
+    if (v === undefined) return;
+    // innerHTML réservé aux chaînes du dictionnaire contenant du balisage (aucune saisie externe)
+    if (v.indexOf('<') !== -1) { el.innerHTML = v; } else { el.textContent = v; }
+  });
+  document.querySelectorAll('[data-i18n-href]').forEach(function (el) {
+    var v = d[el.getAttribute('data-i18n-href')];
+    if (v !== undefined) el.setAttribute('href', v);
+  });
+  document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
+    var v = d[el.getAttribute('data-i18n-alt')];
+    if (v !== undefined) el.setAttribute('alt', v);
+  });
+
+  document.documentElement.lang = next;
+  document.title = d.meta_title;
+  var m = document.querySelector('meta[name="description"]');
+  if (m) m.setAttribute('content', d.meta_desc);
+
+  document.getElementById('fr').setAttribute('aria-pressed', String(next === 'fr'));
+  document.getElementById('en').setAttribute('aria-pressed', String(next === 'en'));
+  syncTheme();
+  try { localStorage.setItem('portfolio_lang', next); } catch (e) {}
+}
+
+/* ==========================================================================
+   TÉLÉCHARGEMENT CV — force le téléchargement sans quitter le portfolio
+   (certains navigateurs ignorent l'attribut download et ouvrent le PDF)
+   ====================================================================== */
+document.querySelectorAll('a[download][data-i18n-href="cv_href"]').forEach(function (el) {
+  el.addEventListener('click', function (e) {
+    e.preventDefault();
+    var url = el.getAttribute('href');
+    fetch(url).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.blob();
+    }).then(function (blob) {
+      var obj = URL.createObjectURL(new Blob([blob], { type: 'application/octet-stream' }));
+      var a = document.createElement('a');
+      a.href = obj;
+      a.download = url.split('/').pop();
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(obj); }, 1000);
+    }).catch(function () {
+      // Repli : nouvel onglet, le portfolio reste ouvert
+      window.open(url, '_blank', 'noopener');
+    });
+  });
+});
+
+/* ==========================================================================
+   THÈME
+   ====================================================================== */
+function timeTheme() { var h = new Date().getHours(); return (h >= 5 && h < 17) ? 'light' : 'dark'; }
+
+function syncTheme() {
+  var b = document.getElementById('th');
+  var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  b.setAttribute('aria-label', dark ? translations[lang].th_light : translations[lang].th_dark);
+}
+
+function setTheme(t, manual) {
+  document.documentElement.setAttribute('data-theme', t);
+  syncTheme();
+  if (manual) { try { sessionStorage.setItem('portfolio_theme_override', t); } catch (e) {} }
+}
+
+/* ==========================================================================
+   DÉMARRAGE
+   ====================================================================== */
+document.getElementById('fr').addEventListener('click', function () { setLanguage('fr'); });
+document.getElementById('en').addEventListener('click', function () { setLanguage('en'); });
+document.getElementById('th').addEventListener('click', function () {
+  setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true);
+});
+
+var saved = 'fr';
+try { saved = localStorage.getItem('portfolio_lang') || 'fr'; } catch (e) {}
+setLanguage(translations[saved] ? saved : 'fr');
+
+var t0 = timeTheme();
+try {
+  var o = sessionStorage.getItem('portfolio_theme_override');
+  if (o === 'light' || o === 'dark') t0 = o;
+} catch (e) {}
+setTheme(t0, false);
+
+document.getElementById('y').textContent = new Date().getFullYear();
+
+/* Apparition des tuiles — neutralisée si le mouvement réduit est demandé.
+   Léger effet de cascade : les tuiles qui apparaissent groupées (même bloc
+   de défilement) sont retardées de quelques ms les unes après les autres,
+   plutôt que de surgir toutes ensemble d'un coup sec. */
+(function () {
+  var tiles = document.querySelectorAll('.t');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+    tiles.forEach(function (el) { el.classList.add('on'); });
+    return;
+  }
+  var batch = 0, lastTime = 0;
+  var io = new IntersectionObserver(function (entries) {
+    var now = performance.now();
+    if (now - lastTime > 250) batch = 0; // nouveau groupe de défilement
+    lastTime = now;
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        var delay = Math.min(batch, 6) * 55;
+        e.target.style.transitionDelay = delay + 'ms';
+        e.target.classList.add('on');
+        io.unobserve(e.target);
+        batch++;
+      }
+    });
+  }, { threshold: .08, rootMargin: '0px 0px -30px 0px' });
+  tiles.forEach(function (el) { io.observe(el); });
+})();
+
+/* Compteurs — les vraies valeurs sont déjà dans le HTML (impression, sans JS,
+   moteurs de recherche). Le JS ne les remet à 0 et ne les anime qu'au moment
+   où l'élément entre à l'écran, et seulement si le mouvement est autorisé. */
+(function () {
+  var counters = document.querySelectorAll('.cnt');
+  if (!counters.length) return;
+
+  function format(n) {
+    return n.toLocaleString('fr-FR').replace(/[\s  ]/g, ' ');
+  }
+  function target(el) { return parseInt(el.getAttribute('data-count'), 10) || 0; }
+  function finalize() { counters.forEach(function (el) { el.textContent = format(target(el)); }); }
+  window.addEventListener('beforeprint', finalize);
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+
+  function run(el) {
+    var end = target(el), start = null, duration = 900;
+    el.textContent = '0';
+    function frame(ts) {
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = format(Math.round(end * eased));
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  var io2 = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { run(e.target); io2.unobserve(e.target); }
+    });
+  }, { threshold: .08 });
+  counters.forEach(function (el) { io2.observe(el); });
+})();
+</script>
+</body>
+</html>

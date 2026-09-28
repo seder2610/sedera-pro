@@ -1,0 +1,36 @@
+# Sedera Andriamanga
+
+> Ingénieur IA et automatisation. Je construis des automatisations et des agents IA qui se branchent sur les logiciels qu'une entreprise utilise déjà : Odoo, CRM, API tierces.
+
+Basé à Antananarivo, Madagascar (UTC+3). Disponible immédiatement pour une mission freelance ou un CDI, en télétravail ou avec une relocalisation en France, en Belgique ou en Suisse.
+
+## Ce que je construis
+
+- Traitement documentaire : extraire les données de factures, contrats ou PDF et les injecter dans un ERP, un CRM ou une API.
+- Agents IA : des agents LLM qui appellent de vraies API et écrivent en base, au lieu de seulement répondre à des questions.
+- Automatisation métier : des workflows déclenchés par des événements, qui relient ERP, CRM et services tiers.
+
+## Parcours
+
+- Depuis juillet 2026 : indépendant, automatisations IA et modules Odoo publiés en open source.
+- Avril 2024 à juin 2026 : développeur fullstack Odoo, 61 projets livrés en production sur Odoo 12 à 19, plus de 4 100 contributions de code sur les douze derniers mois du poste.
+- 2024 : Master 1 Informatique (bac+4), ISPM Antsobolo, Antananarivo.
+
+## Projets publics
+
+- [n8n-bridge](https://github.com/seder2610/n8n-bridge) : relie Odoo 17 à n8n. Odoo envoie ses événements (vente confirmée, facture validée) par webhooks signés HMAC, avec file d'attente et nouvel envoi si n8n est en panne.
+- [Agent de prospection LinkedIn](https://github.com/seder2610/linkedin-prospecting-agent-n8n) : à partir d'un profil collé, rédige des messages d'approche personnalisés avec n8n et OpenAI, puis les range dans Notion et Google Sheets.
+- [Relances de devis automatiques](https://github.com/seder2610/sale-quote-followup) : module Odoo 18 qui relance un devis resté sans réponse à J+3, J+7 et J+14, et s'arrête dès que le client répond.
+
+## Contact
+
+- Site : https://sedera-pro.com/
+- Email : sedera@sedera-pro.com
+- GitHub : https://github.com/seder2610
+- LinkedIn : https://www.linkedin.com/in/sedera-andriamanga
+- CV (PDF, français) : https://sedera-pro.com/cv-sedera-andriamanga.pdf
+- CV (PDF, English) : https://sedera-pro.com/cv-sedera-andriamanga-en.pdf
+
+## In English
+
+AI and automation engineer based in Antananarivo, Madagascar (UTC+3). Builds automations and AI agents that plug into the software a business already runs (Odoo, CRMs, third-party APIs). 61 Odoo projects shipped to production (versions 12 to 19). Available now for freelance work or a permanent role, remote or with relocation to France, Belgium or Switzerland. Contact: sedera@sedera-pro.com
